@@ -13,14 +13,15 @@
 > docker run -v /var/lib/mongo/data/db:/data/db -p 27017:27017 --name mongodb -d mongo
 
 4. 透過 docker exec 進入在背景執行的 container, 先做 auth user 帳號的設定, 並記住 container id
-> docker exec -ti mongodb /bin/bash
-> \# mongo
-> \# use admin
-> \> db.createUser({ user: '管理所有資料庫的帳號', pwd: '密碼', roles: [ { role: "userAdminAnyDatabase", db: "admin" } ] })
-> \> db.createUser({ user: '讀寫專用帳號', pwd: '密碼', roles: [ { role: "readWrite", db: "toutiao" } ] })
-> \> exit
-> \# exit
-
+```
+# docker exec -ti mongodb /bin/bash
+# mongo
+# use admin
+> db.createUser({ user: '管理所有資料庫的帳號', pwd: '密碼', roles: [ { role: "userAdminAnyDatabase", db: "admin" } ] })
+> db.createUser({ user: '讀寫專用帳號', pwd: '密碼', roles: [ { role: "readWrite", db: "toutiao" } ] })
+> exit
+# exit
+```
 5. 將變更過的 container 執行提交, 並且加上 tag: v1.0.0
 > \# docker commit -m "Add init admin and user" 容器ID mongo:v1.0.0
 
